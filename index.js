@@ -1,49 +1,59 @@
 const inputRange = document.querySelector(".inputRange"),
-inputNumber=document.querySelector(".inputNumber"),
-playBtn=document.querySelector(".playBtn"),
-result=document.querySelector(".result");
+  inputNumber = document.querySelector(".inputNumber"),
+  playBtn = document.querySelector(".playBtn"),
+  result = document.querySelector(".result"),
+  showingError = document.querySelector(".showingError");
 
-const yourNumber=document.querySelector(".yourNumber"),
-machineNumber=document.querySelector(".machineNumber"),
-numberGenerator=document.querySelector(".numberGenerator");
-//선택한 레인지 범위를 벗어난 숫자를 입력하면 '오류' 출력
-//레인지 밸류 값을 받아서 미니멈,맥시멈 확인하기
+const yourNumber = document.querySelector(".yourNumber"),
+  machineNumber = document.querySelector(".machineNumber"),
+  numberGenerator = document.querySelector(".numberGenerator");
 
-/*Find a  random number on a range between 0 and a number defined by the user.
-Use range input.
-Update the range value in real time.
-Only play after the user chooses a number.
-Notify the user if the game is lost or won.
-Don't give up.
+function checkInputNumberRange() {
+  const rangeMax = Number(inputRange.max, 2);
+  if (rangeMax > 150) {
+    showingError.innerHTML = `pick a number between 0 and ${rangeMax}`;
+  } //왜 alert는 되는데 innerHTML은 안되는지??
 
- */
-
-function handleBtn(event){
-    event.preventDefault();
-    const currentValue=inputNumber.value;
-yourNumber.innerHTML=currentValue;
-//inputNumber.value="";
-
-const currentRange=inputRange.value;
-const randomNumber=Math.floor(Math.random()*currentRange);  // 비트윈 0,2일 때 2는 출력하지않음 - 체크하기
-machineNumber.innerHTML=randomNumber;
-
-//랜덤넘버와 인풋에서 받은 넘버가 일치할때
-if(currentValue === randomNumber){
-    result.innerHTML='You won'
-}else{
-    result.innerHTML="You lost"
-}
+  const checkingNum = Number(inputNumber.value, 2);
+  if (checkingNum < 0) {
+    inputNumber.value = Math.abs(checkingNum);
+  }
+  if (inputRange.value < checkingNum) {
+    result.innerHTML = `pick a number smaller than ${inputRange.value}`;
+    inputNumber.value = "";
+  }
+  if (Number(inputRange.value, 2) === 0) {
+    result.innerHTML = `set the range`;
+    yourNumber.innerHTML = "nothing";
+    machineNumber.innerHTML = "nothing"; //왜 출력안됨???
+    result.innerHTML = "You haven't set the range of number";
+  }
 }
 
-function handleRange(event){
-    const currentValue=inputRange.value;
-    numberGenerator.innerHTML=currentValue;
+function handleBtn(event) {
+  // event.preventDefault();  << 찾아보기
+  const currentValue = inputNumber.value;
+  yourNumber.innerHTML = currentValue;
+
+  const currentRange = inputRange.value;
+  const randomNumber = Math.round(Math.random() * currentRange);
+  machineNumber.innerHTML = randomNumber;
+
+  if (Number(currentValue, 2) === randomNumber) {
+    result.innerHTML = "You won";
+  } else {
+    result.innerHTML = "You lost";
+  }
 }
 
-function init(){
-    playBtn.addEventListener("click", handleBtn);
-    inputRange.addEventListener("change", handleRange);
+function handleRange(event) {
+  const currentValue = inputRange.value;
+  numberGenerator.innerHTML = currentValue;
+}
+
+function init() {
+  playBtn.addEventListener("click", checkInputNumberRange);
+  playBtn.addEventListener("click", handleBtn);
+  inputRange.addEventListener("input", handleRange);
 }
 init();
-
