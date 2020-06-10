@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link href="styles.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Random Number Game</h1>
+    <h2>Generate a number between 0 and <span class="numberGenerator">100</span></h2>
+    <input type="range" name="inputRange" id="inputRange" class="inputRange" max="150" value="100">
+        <div>
+        <span>Guess the number</span>
+            
+        <input class="inputNumber" type="number" max="150" maxlength="3" numberonly="true" name="inputNumber" pattern="[0-9]{3}" title="type only number">
+        <button type="submit" class="playBtn" value="submit">play!</button> 
+    </div>
+    
+    <div>You chose:<span class="yourNumber">0</span>
+    , the machine chose:<span class="machineNumber">0</span>
+     </div>
+     <div class="result"></div>
+</label>
+
+    <script src=index.js></script>
+</body>
+</html>
